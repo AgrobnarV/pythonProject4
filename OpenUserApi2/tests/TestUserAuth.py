@@ -1,8 +1,8 @@
 import pytest
 import requests
 
-from OpenUserApi2.lib.assertions import Assertions
-from OpenUserApi2.lib.base_case import BaseCase
+from OpenUserApi2.lib.Assertions import Assertions
+from OpenUserApi2.lib.BaseCase import BaseCase
 
 
 class TestUserAuth(BaseCase):
