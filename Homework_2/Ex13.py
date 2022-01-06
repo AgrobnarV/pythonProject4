@@ -1,8 +1,10 @@
 import json
+
 import pytest
 import requests
 
 
+# хидеры брал из https://gist.github.com/KotovVitaliy/138894aa5b6fa442163561b5db6e2e26
 class TestUserAgentHeader:
     headers = {
         (
@@ -14,7 +16,8 @@ class TestUserAgentHeader:
             "Mobile", "Chrome", "iOS"
         ),
         (
-            "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)", "Googlebot", "Unknown", "Unknown"
+            "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)", "Googlebot", "Unknown",
+            "Unknown"
         ),
         (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36 Edg/91.0.100.0",
