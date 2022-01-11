@@ -1,8 +1,9 @@
 import pytest
-import requests
 
-from OpenUserApi2.lib.Assertions import Assertions
-from OpenUserApi2.lib.BaseCase import BaseCase
+from OpenUserApi2.lib.assertions import Assertions
+from OpenUserApi2.lib.basecase import BaseCase
+from OpenUserApi2.lib.logger import Logger
+from OpenUserApi2.lib.my_requests import MyRequests
 
 
 class TestUserAuth(BaseCase):
@@ -13,7 +14,7 @@ class TestUserAuth(BaseCase):
 
     def setup(self):
         data = {"email": "vinkotov@example.com", "password": "1234"}
-        response = requests.post("https://playground.learnqa.ru/api/user/login", data=data)
+        response = MyRequests.post("/user/login", data=data)
 
         self.auth_sid = self.get_cookie(response, "auth_sid")
         self.token = self.get_headers(response, "x-csrf-token")
@@ -22,8 +23,8 @@ class TestUserAuth(BaseCase):
     # позитивный авторизационный тест
     def test_auth_user(self):
 
-        response2 = requests.get("https://playground.learnqa.ru/api/user/auth", headers={"x-csrf-token": self.token},
-                                 cookies={"auth_sid": self.auth_sid})
+        response2 = MyRequests.get("/user/auth", headers={"x-csrf-token": self.token},
+                                   cookies={"auth_sid": self.auth_sid})
 
         Assertions.assert_json_value_by_name(response2, "user_id", self.user_id_from_auth_method,
                                              "Значения user_id не совпадают в запросах")
@@ -33,9 +34,8 @@ class TestUserAuth(BaseCase):
     def test_negative_auth_check(self, condition):
 
         if condition == "no_cookie":
-            response2 = requests.get("https://playground.learnqa.ru/api/user/auth",
-                                     headers={"x-csrf-token": self.token})
+            response = MyRequests.get("/user/auth", headers={"x-csrf-token": self.token})
         else:
-            response2 = requests.get("https://playground.learnqa.ru/api/user/auth", cookies={"auth_sid": self.auth_sid})
+            response = MyRequests.get("/user/auth", cookies={"auth_sid": self.auth_sid})
 
-        Assertions.assert_json_value_by_name(response2, "user_id", 0, f"Юзер не авторизовался с условием {condition}")
+        Assertions.assert_json_value_by_name(response, "user_id", 0, f"Юзер не авторизовался с условием {condition}")
