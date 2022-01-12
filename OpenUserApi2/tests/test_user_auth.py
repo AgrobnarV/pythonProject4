@@ -1,11 +1,12 @@
 import pytest
+import allure
 
 from OpenUserApi2.lib.assertions import Assertions
 from OpenUserApi2.lib.basecase import BaseCase
-from OpenUserApi2.lib.logger import Logger
 from OpenUserApi2.lib.my_requests import MyRequests
 
 
+@allure.epic("Авторизационнные тесты")
 class TestUserAuth(BaseCase):
     exclude_params = [
         "no_cookie",
@@ -20,7 +21,7 @@ class TestUserAuth(BaseCase):
         self.token = self.get_headers(response, "x-csrf-token")
         self.user_id_from_auth_method = self.get_json_value(response, "user_id")
 
-    # позитивный авторизационный тест
+    @allure.description("Тест проверяет авторизацию юзера с email и  password")
     def test_auth_user(self):
 
         response2 = MyRequests.get("/user/auth", headers={"x-csrf-token": self.token},
@@ -29,7 +30,7 @@ class TestUserAuth(BaseCase):
         Assertions.assert_json_value_by_name(response2, "user_id", self.user_id_from_auth_method,
                                              "Значения user_id не совпадают в запросах")
 
-    # негативные авторизационные тесты. Проверяют авторизацию, не отправляя куки или токен в запрос ручки /auth
+    @allure.description("Тест проверяет авторизацию, не отправляя куки или токен в запрос ручки /auth")
     @pytest.mark.parametrize("condition", exclude_params)
     def test_negative_auth_check(self, condition):
 

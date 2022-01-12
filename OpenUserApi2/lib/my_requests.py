@@ -1,29 +1,35 @@
 import requests
+import allure
 
 from OpenUserApi2.lib.logger import Logger
+from environment import ENV_OBJECT
 
 
 class MyRequests:
     @staticmethod
     def get(url: str, data: dict = None, headers: dict = None, cookies: dict = None):
-        return MyRequests._send(url, data, headers, cookies, "GET")
+        with allure.step(f"GET запрос к URL '{url}'"):
+            return MyRequests._send(url, data, headers, cookies, "GET")
 
     @staticmethod
     def post(url: str, data: dict = None, headers: dict = None, cookies: dict = None):
-        return MyRequests._send(url, data, headers, cookies, "POST")
+        with allure.step(f"POST запрос к URL '{url}'"):
+            return MyRequests._send(url, data, headers, cookies, "POST")
 
     @staticmethod
     def put(url: str, data: dict = None, headers: dict = None, cookies: dict = None):
-        return MyRequests._send(url, data, headers, cookies, "PUT")
+        with allure.step(f"PUT запрос к URL '{url}'"):
+            return MyRequests._send(url, data, headers, cookies, "PUT")
 
     @staticmethod
     def delete(url: str, data: dict = None, headers: dict = None, cookies: dict = None):
-        return MyRequests._send(url, data, headers, cookies, "DELETE")
+        with allure.step(f"DELETE запрос к URL '{url}'"):
+            return MyRequests._send(url, data, headers, cookies, "DELETE")
 
     @staticmethod
     def _send(url: str, data: dict, headers: dict, cookies: dict, method: str):
 
-        url = f"https://playground.learnqa.ru/api{url}"
+        url = f"{ENV_OBJECT.get_base_url()}{url}"
 
         if headers is None:
             headers = {}

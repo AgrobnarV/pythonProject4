@@ -1,9 +1,13 @@
 from OpenUserApi2.lib.assertions import Assertions
 from OpenUserApi2.lib.basecase import BaseCase
 from OpenUserApi2.lib.my_requests import MyRequests
+import allure
 
 
+@allure.epic("Тесты на изменение залогированного пользователя")
 class TestUserEdit(BaseCase):
+    @allure.description(
+        "Тест регенит пользователя, авторизуется под ним, редактирует имя пользователя и проверяет пользовательское новое имя")
     def test_edit_just_created_user(self):
         # Register
         register_data = self.prepare_registration_data()

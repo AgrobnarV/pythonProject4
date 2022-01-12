@@ -1,8 +1,11 @@
+import allure
+
 from OpenUserApi2.lib.assertions import Assertions
 from OpenUserApi2.lib.basecase import BaseCase
 from OpenUserApi2.lib.my_requests import MyRequests
 
 
+@allure.epic("Тесты на детали инфы о пользователе")
 class TestUserInfo(BaseCase):
     def setup(self):
         data = {"email": "vinkotov@example.com", "password": "1234"}
@@ -12,7 +15,7 @@ class TestUserInfo(BaseCase):
         self.token = self.get_headers(response1, "x-csrf-token")
         self.user_id_from_auth_method = self.get_json_value(response1, "user_id")
 
-    # проверяем что в ответе ручки приходят нужные ключи
+    @allure.description("Тест проверяет, что в ответе ручки приходят нужные ключи")
     def test_check_user_details_not_auth(self):
         response2 = MyRequests.get("/user/2")
 
@@ -21,7 +24,7 @@ class TestUserInfo(BaseCase):
         Assertions.assert_json_has_not_key(response2, "firstName")
         Assertions.assert_json_has_not_key(response2, "lastName")
 
-    # авторизация под одним и тем же юзером
+    @allure.description("Тест проверяет результат авторизации под единым email и паролем")
     def test_get_user_details_auth(self):
         response3 = MyRequests.get(f"/user/{self.user_id_from_auth_method}",
                                    headers={"x-csrf-token": self.token},

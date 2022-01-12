@@ -21,10 +21,10 @@ class Logger:
         data_to_add += f"Test: {testname}\n"
         data_to_add += f"Time: {str(datetime.datetime.now())}\n"
         data_to_add += f"Request method: {method} \n"
-        data_to_add += f"Request URL: {method} \n"
-        data_to_add += f"Request data: {method} \n"
-        data_to_add += f"Request headers: {method} \n"
-        data_to_add += f"Request cookies: {method} \n"
+        data_to_add += f"Request URL: {url} \n"
+        data_to_add += f"Request data: {data} \n"
+        data_to_add += f"Request headers: {headers} \n"
+        data_to_add += f"Request cookies: {cookies} \n"
         data_to_add += "\n"
 
         cls._write_log_to_file(data_to_add)

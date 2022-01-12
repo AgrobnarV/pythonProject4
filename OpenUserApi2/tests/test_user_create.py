@@ -1,10 +1,13 @@
-from OpenUserApi2.lib.basecase import BaseCase
+import allure
+
 from OpenUserApi2.lib.assertions import Assertions
+from OpenUserApi2.lib.basecase import BaseCase
 from OpenUserApi2.lib.my_requests import MyRequests
 
 
+@allure.epic("Тесты на создание юзера")
 class TestUserRegister(BaseCase):
-    # проверить что пользователь успешно создался
+    @allure.description("Тест проверяет успешное создание учетки")
     def test_create_user_success(self):
         data = self.prepare_registration_data()
 
@@ -13,7 +16,7 @@ class TestUserRegister(BaseCase):
         Assertions.assert_code_status(response, 200)
         Assertions.assert_json_has_key(response, "id")
 
-    # проверить что нельзя создать пользователя с уже созданным email
+    @allure.description("Тест проверяет невозможность создать пользователя с уже созданным email")
     def test_check_create_user_with_email(self):
         email = "vinkotov@example.com"
         data = self.prepare_registration_data(email)
